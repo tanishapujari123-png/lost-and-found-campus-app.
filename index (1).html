@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Lost & Found Campus</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #222;
+        }
+
+        header {
+            background: #163d73;
+            color: white;
+            text-align: center;
+            padding: 30px 15px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+
+        header p {
+            margin-top: 10px;
+        }
+
+        nav {
+            background: #0e2d55;
+            text-align: center;
+            padding: 14px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 8px 15px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        nav a:hover {
+            color: #ffd54f;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 55px 20px;
+            background: white;
+        }
+
+        .hero h2 {
+            color: #163d73;
+            font-size: 30px;
+        }
+
+        .hero p {
+            font-size: 17px;
+            color: #555;
+        }
+
+        .buttons {
+            margin-top: 25px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 13px 22px;
+            margin: 8px;
+            background: #163d73;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .btn:hover {
+            background: #0e2d55;
+        }
+
+        section {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 25px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        section h2 {
+            text-align: center;
+            color: #163d73;
+        }
+
+        form {
+            max-width: 600px;
+            margin: auto;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 11px;
+            margin-top: 6px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        textarea {
+            height: 90px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 7px;
+            background: #163d73;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0e2d55;
+        }
+
+        .message {
+            margin-top: 15px;
+            text-align: center;
+            color: green;
+            font-weight: bold;
+        }
+
+        .search-box {
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .map-box {
+            text-align: center;
+            padding: 30px;
+            background: #eef4fc;
+            border: 2px dashed #163d73;
+            border-radius: 10px;
+        }
+
+        .map-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .location {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #cbd7e6;
+        }
+
+        footer {
+            text-align: center;
+            background: #0e2d55;
+            color: white;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        @media(max-width: 600px) {
+            header h1 {
+                font-size: 28px;
+            }
+
+            .map-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+
+<body>
+
+<header>
+    <h1>🔎 Lost & Found Campus</h1>
+    <p>Helping students find their lost belongings easily</p>
+</header>
+
+<nav>
+    <a href="#home">Home</a>
+    <a href="#lost">Report Lost</a>
+    <a href="#found">Report Found</a>
+    <a href="#search">Search</a>
+    <a href="#map">Campus Map</a>
+</nav>
+
+
+<div class="hero" id="home">
+
+    <h2>Lost Something on Campus?</h2>
+
+    <p>
+        Report lost or found items and help belongings
+        return to their owners.
+    </p>
+
+    <div class="buttons">
+        <a class="btn" href="#lost">Report Lost Item</a>
+        <a class="btn" href="#found">Report Found Item</a>
+    </div>
+
+</div>
+
+
+<section id="lost">
+
+    <h2>📢 Report Lost Item</h2>
+
+    <form onsubmit="submitLost(event)">
+
+        <label>Your Name</label>
+        <input type="text" required>
+
+        <label>Item Name</label>
+        <input type="text" placeholder="Example: Black Wallet" required>
+
+        <label>Category</label>
+
+        <select required>
+            <option value="">Select Category</option>
+            <option>ID Card</option>
+            <option>Mobile Phone</option>
+            <option>Wallet</option>
+            <option>Keys</option>
+            <option>Books</option>
+            <option>Bag</option>
+            <option>Electronics</option>
+            <option>Other</option>
+        </select>
+
+        <label>Lost Location</label>
+
+        <select required>
+            <option value="">Select Location</option>
+            <option>Library</option>
+            <option>Canteen</option>
+            <option>Classroom Block</option>
+            <option>Laboratory</option>
+            <option>Parking Area</option>
+            <option>Playground</option>
+            <option>Other</option>
+        </select>
+
+        <label>Date Lost</label>
+        <input type="date" required>
+
+        <label>Item Description</label>
+
+        <textarea
+            placeholder="Enter colour, brand or other identification details"
+            required>
+        </textarea>
+
+        <label>Upload Item Photo</label>
+        <input type="file" accept="image/*">
+
+        <label>Contact Number / Email</label>
+        <input type="text" required>
+
+        <button type="submit">
+            Submit Lost Item
+        </button>
+
+        <div class="message" id="lostMessage"></div>
+
+    </form>
+
+</section>
+
+
+<section id="found">
+
+    <h2>✅ Report Found Item</h2>
+
+    <form onsubmit="submitFound(event)">
+
+        <label>Your Name</label>
+        <input type="text" required>
+
+        <label>Found Item</label>
+        <input type="text" placeholder="Example: College ID Card" required>
+
+        <label>Category</label>
+
+        <select required>
+            <option value="">Select Category</option>
+            <option>ID Card</option>
+            <option>Mobile Phone</option>
+            <option>Wallet</option>
+            <option>Keys</option>
+            <option>Books</option>
+            <option>Bag</option>
+            <option>Electronics</option>
+            <option>Other</option>
+        </select>
+
+        <label>Found Location</label>
+
+        <select required>
+            <option value="">Select Location</option>
+            <option>Library</option>
+            <option>Canteen</option>
+            <option>Classroom Block</option>
+            <option>Laboratory</option>
+            <option>Parking Area</option>
+            <option>Playground</option>
+            <option>Other</option>
+        </select>
+        <label>Currently Kept At</label>
+<select required>
+    <option value="">Select Current Location</option>
+    <option>Campus Security Office</option>
+    <option>Lost & Found Desk</option>
+    <option>Library Office</option>
+    <option>Department Office</option>
+    <option>College Reception</option>
+</select>
+        <label>Date Found</label>
+        <input type="date" required>
+
+        <label>Description</label>
+
+        <textarea
+            placeholder="Describe the item"
+            required>
+        </textarea>
+
+        <label>Upload Found Item Photo</label>
+        <input type="file" accept="image/*">
+
+        <label>Contact Number / Email</label>
+        <input type="text" required>
+
+        <button type="submit">
+            Submit Found Item
+        </button>
+
+        <div class="message" id="foundMessage"></div>
+        <div id="foundQRSection" style="display:none; text-align:center; margin-top:20px;">
+    <h3>📱 Found Item QR Code</h3>
+    <p>Scan this QR code to view the item information.</p>
+    <div id="foundQRCode" style="display:inline-block;">
+    <img src="wallet-qr-code.png" alt="Wallet QR Code" width="220">
+</div>
+        
+</div>
+
+    </form>
+
+</section>
+
+
+<section id="search">
+
+    <h2>🔍 Search Lost & Found Items</h2>
+
+    <div class="search-box">
+
+        <label>Search Item</label>
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Example: Wallet, ID Card, Phone">
+
+        <label>Category</label>
+
+        <select id="searchCategory">
+            <option>All Categories</option>
+            <option>ID Card</option>
+            <option>Mobile Phone</option>
+            <option>Wallet</option>
+            <option>Keys</option>
+            <option>Books</option>
+            <option>Bag</option>
+        </select>
+
+        <button onclick="searchItem()">
+            Search
+        </button>
+
+        <div class="message" id="searchMessage"></div>
+        <div id="matchResults" style="margin-top:20px;">
+    <h3>🔄 Possible Lost & Found Matches</h3>
+    <div id="matchMessage">
+        Search for an item to check possible matches.
+    </div>
+</div>
+
+    </div>
+
+</section>
+
+
+<section id="map">
+
+    <h2>📍 Campus Map</h2>
+
+    <div class="map-box">
+
+        <h3>Campus Lost & Found Locations</h3>
+
+        <p>
+            Select or identify the location where an item
+            was lost or found.
+        </p>
+
+        <div class="map-grid">
+
+            <div class="location">
+                📚
+                <h3>Library</h3>
+            </div>
+
+            <div class="location">
+                🍴
+                <h3>Canteen</h3>
+            </div>
+
+            <div class="location">
+                🏫
+                <h3>Classroom Block</h3>
+            </div>
+
+            <div class="location">
+                🧪
+                <h3>Laboratory</h3>
+            </div>
+
+            <div class="location">
+                🚗
+                <h3>Parking Area</h3>
+            </div>
+
+            <div class="location">
+                🏏
+                <h3>Playground</h3>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<section>
+
+    <h2>💡 How It Works</h2>
+
+    <p>
+        <b>Step 1:</b> Scan the campus QR code and open this website.
+    </p>
+
+    <p>
+        <b>Step 2:</b> Report whether you lost or found an item.
+    </p>
+
+    <p>
+        <b>Step 3:</b> Enter the item details and campus location.
+    </p>
+
+    <p>
+        <b>Step 4:</b> Search for matching lost and found items.
+    </p>
+
+    <p>
+        <b>Step 5:</b> After verification, the item can be returned
+        to its owner.
+    </p>
+
+</section>
+
+
+<footer>
+
+    <p>Lost & Found Campus System</p>
+
+    <p>Mini Project</p>
+
+</footer>
+
+
+<script>
+async function submitLost(event) {
+    event.preventDefault();
+
+    const form = event.target;
+
+    const data = {
+        name: form.elements[0].value,
+        item: form.elements[1].value,
+        category: form.elements[2].value,
+        location: form.elements[3].value,
+        date: form.elements[4].value,
+        description: form.elements[5].value,
+    
+        type: "lost",
+        createdAt: new Date()
+    };
+
+    try {
+        await addDoc(collection(db, "lostItems"), data);
+
+        document.getElementById("lostMessage").innerHTML =
+            "✅ Lost item report submitted successfully!";
+
+        form.reset();
+    } catch (error) {
+        document.getElementById("lostMessage").innerHTML =
+            "❌ Error submitting lost item.";
+        console.error(error);
+    }
+}
+
+async function submitFound(event) {
+    event.preventDefault();
+
+    const form = event.target;
+
+    const data = {
+        name: form.elements[0].value,
+        item: form.elements[1].value,
+        category: form.elements[2].value,
+        location: form.elements[3].value,
+        keptAt: form.elements[4].value,
+        date: form.elements[5].value,
+        description: form.elements[6].value,
+        type: "found",
+        createdAt: new Date()
+    };
+
+    try {
+        const docRef = await window.addDoc(
+            window.collection(window.db, "foundItems"),
+            data
+        );
+        const itemURL =
+    window.location.origin +
+    window.location.pathname +
+    "?foundId=" +
+    docRef.id;
+
+        
+
+        document.getElementById("foundMessage").innerHTML =
+            "✅ Found item report submitted successfully!";
+
+        // Generate QR Code for the found item
+const qrSection = document.getElementById("foundQRSection");
+const qrBox = document.getElementById("foundQRCode");
+
+qrBox.innerHTML = "";
+
+   const qrText =
+    window.location.origin +
+    window.location.pathname +
+    "?foundId=" + encodeURIComponent(docRef.id);
+new QRCode(qrBox, {
+    text: itemURL,
+    width: 180,
+    height: 180
+});
+
+qrSection.style.display = "block";
+
+        form.reset();
+
+    } catch (error) {
+        document.getElementById("foundMessage").innerHTML =
+            "❌ Error submitting found item.";
+
+        console.error(error);
+    }
+}
+
+async function searchItem() {
+
+    const item = document.getElementById("searchInput").value.trim().toLowerCase();
+    const category = document.getElementById("searchCategory").value;
+
+    const message = document.getElementById("searchMessage");
+
+    if (item === "") {
+        message.innerHTML = "Please enter an item to search.";
+        return;
+    }
+
+    message.innerHTML = "🔍 Searching...";
+
+    try {
+
+        const lostSnapshot = await window.getDocs(
+            window.collection(window.db, "lostItems")
+        );
+
+        const foundSnapshot = await window.getDocs(
+            window.collection(window.db, "foundItems")
+        );
+
+        let results = [];
+
+        lostSnapshot.forEach((doc) => {
+            const data = doc.data();
+
+            if (
+                data.item &&
+                data.item.toLowerCase().includes(item) &&
+                (category === "All Categories" || data.category === category)
+            ) {
+                results.push(data);
+            }
+        });
+
+        foundSnapshot.forEach((doc) => {
+            const data = doc.data();
+
+            if (
+                data.item &&
+                data.item.toLowerCase().includes(item) &&
+                (category === "All Categories" || data.category === category)
+            ) {
+                results.push(data);
+            }
+        });
+
+        if (results.length === 0) {
+            message.innerHTML = "❌ No matching item found.";
+            return;
+        }
+
+        let output = "<h3>Search Results</h3>";
+
+        results.forEach((data) => {
+            output += `
+                <div style="border:1px solid #ccc; padding:10px; margin:10px 0;">
+                    <b>Item:</b> ${data.item}<br>
+                    <b>Category:</b> ${data.category}<br>
+                    <b>Location:</b> ${data.location}<br>
+                    <b>Description:</b> ${data.description}<br>
+                    <b>Type:</b> ${data.type}
+                </div>
+            `;
+        });
+
+        message.innerHTML = output;
+        const matchBox = document.getElementById("matchMessage");
+
+let lostData = [];
+let foundData = [];
+
+lostSnapshot.forEach((doc) => {
+    lostData.push(doc.data());
+});
+
+foundSnapshot.forEach((doc) => {
+    foundData.push(doc.data());
+});
+
+let matches = [];
+
+lostData.forEach((lost) => {
+    foundData.forEach((found) => {
+
+        const sameItem =
+            lost.item &&
+            found.item &&
+            lost.item.toLowerCase().includes(found.item.toLowerCase()) ||
+            (lost.item &&
+             found.item &&
+             found.item.toLowerCase().includes(lost.item.toLowerCase()));
+
+        const sameCategory =
+            lost.category === found.category;
+
+        if (sameItem && sameCategory) {
+            matches.push({ lost, found });
+        }
+    });
+});
+
+if (matches.length === 0) {
+
+    matchBox.innerHTML =
+        "❌ No possible Lost & Found match found.";
+
+} else {
+
+    let matchOutput = "";
+
+    matches.forEach((match) => {
+
+        matchOutput += `
+            <div style="border:1px solid #ccc; padding:10px; margin:10px 0;">
+                <b>🎯 Possible Match!</b><br><br>
+
+                <b>Lost Item:</b> ${match.lost.item}<br>
+                <b>Lost Location:</b> ${match.lost.location}<br><br>
+
+                <b>Found Item:</b> ${match.found.item}<br>
+                <b>Found Location:</b> ${match.found.location}<br>
+
+                <br>✅ Item name and category match.
+            </div>
+        `;
+    });
+
+    matchBox.innerHTML = matchOutput;
+}
+
+    } catch (error) {
+        console.error(error);
+        message.innerHTML = "❌ Error searching items.";
+    }
+}
+
+</script>
+
+    <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+  import {
+      getFirestore,
+      collection,
+      addDoc,
+      getDocs,
+      doc,
+      getDoc
+  }   from
+  "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";    
+      
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyByjmUG5_xAXhMyaf1YQ-1bsy8XPQSv7SI",
+    authDomain: "lost-found-campus-347f5.firebaseapp.com",
+    projectId: "lost-found-campus-347f5",
+    storageBucket: "lost-found-campus-347f5.firebasestorage.app",
+    messagingSenderId: "447373689972",
+    appId: "1:447373689972:web:99a76064741ce2e8d3bd21"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  window.db = db;
+  window.addDoc = addDoc;
+  window.collection = collection;
+  window.getDocs = getDocs;
+  window.doc = doc;
+  window.getDoc = getDoc;      
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", async function () {
+
+    const params = new URLSearchParams(window.location.search);
+const foundId = params.get("foundId");
+
+if (foundId) {
+    try {
+        const docRef = window.doc(window.db, "foundItems", foundId);
+        const docSnap = await window.getDoc(docRef);
+
+        if (docSnap.exists()) {
+            const foundData = docSnap.data();
+
+            const item = foundData.item || "";
+            const category = foundData.category || "";
+            const location = foundData.location || "";
+            const keptAt = foundData.keptAt || "";
+            const date = foundData.date || "";
+            const description = foundData.description || "";
+
+        const detailsBox = document.createElement("div");
+
+        detailsBox.style.maxWidth = "600px";
+        detailsBox.style.margin = "30px auto";
+        detailsBox.style.padding = "20px";
+        detailsBox.style.border = "2px solid #2e7d32";
+        detailsBox.style.borderRadius = "10px";
+        detailsBox.style.background = "#f1f8e9";
+
+        detailsBox.innerHTML = `
+            <h2>🔍 Found Item Details</h2>
+
+            <p><b>Item:</b> ${item}</p>
+            <p><b>Category:</b> ${category}</p>
+            <p><b>Found Location:</b> ${location}</p>
+            <p><b>Currently Kept At:</b> ${keptAt}</p>
+            <p><b>Date Found:</b> ${date}</p>
+            <p><b>Description:</b> ${description}</p>
+        `;
+
+        document.body.prepend(detailsBox);
+    }
+    } catch (error) {
+        console.error("Error loading found item:", error);
+    }
+}
+
+});
+</script>    
+
+
+</body>
+</html>
